@@ -20,10 +20,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
-    <!-- Chosen
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script> -->
-
 </head>
 
 <style>
@@ -54,7 +50,7 @@
         <h3>
             <strong>Question 1</strong>
         </h3>
-        <h4> Question goes here </h4>
+        <h4> You have fun in a light-hearted atmosphere; preferring not to take things too seriously. </h4>
         <select class="form-control w-25" id="q1">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -67,7 +63,7 @@
         <h3>
             <strong>Question 2</strong>
         </h3>
-        <h4> Question goes here </h4>
+        <h4> In a discussion, truth should be more important than people’s sensitivities. </h4>
         <select class="form-control w-25" id="q2">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -81,7 +77,7 @@
         <h3>
             <strong>Question 3</strong>
         </h3>
-        <h4> Question goes here </h4>
+        <h4> Your mind is always buzzing with unexplored ideas and plans. </h4>
         <select class="form-control w-25" id="q3">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -95,7 +91,7 @@
         <h3>
             <strong>Question 4</strong>
         </h3>
-        <h4> Question goes here </h4>
+        <h4> You are effective at dealing with fast-changing situations and find that stable environments can become boring. </h4>
         <select class="form-control w-25" id="q4">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -109,7 +105,7 @@
         <h3>
             <strong>Question 5</strong>
         </h3>
-        <h4> Question goes here </h4>
+        <h4> You should only set one alarm for the morning, and get up right when it goes off. </h4>
         <select class="form-control w-25" id="q5">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -123,7 +119,7 @@
         <h3>
             <strong>Question 6</strong>
         </h3>
-        <h4> Question goes here </h4>
+        <h4> People can rarely upset you. </h4>
         <select class="form-control w-25" id="q6">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -137,7 +133,7 @@
         <h3>
             <strong>Question 7</strong>
         </h3>
-        <h4> Question goes here </h4>
+        <h4> You are more of a natural improviser than a careful planner. </h4>
         <select class="form-control w-25" id="q7">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -150,7 +146,7 @@
         <h3>
             <strong>Question 8</strong>
         </h3>
-        <h4> Question goes here </h4>
+        <h4> You feel more energetic after spending time with a group of people. </h4>
         <select class="form-control w-25" id="q8">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -163,7 +159,7 @@
         <h3>
             <strong>Question 9</strong>
         </h3>
-        <h4> Question goes here </h4>
+        <h4> Physical appearances are very important to you. </h4>
         <select class="form-control w-25" id="q9">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -176,7 +172,7 @@
         <h3>
             <strong>Question 10</strong>
         </h3>
-        <h4> Question goes here </h4>
+        <h4> You rarely do something just out of sheer curiosity. </h4>
         <select class="form-control w-25" id="q10">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -206,10 +202,57 @@
 
     </div>
 
+    
+
     <script type="text/javascript">
-        // Capture the form inputs
+        // Form inputs
         $("#submit").on("click", function (event) {
             event.preventDefault();
+    
+        // Form validation
+        function validateForm() {
+                let isValid = true;
+                $(".form-control").each(function () {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                    }
+                });
+                $(".form-control").each(function () {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                    }
+                });
+                return isValid;
+            }
+            // If all required fields are filled
+            if (validateForm()) {
+                // Create an object for the user"s data
+                let userData = {
+                    name: $("#name").val(),
+                    photo: $("#photo").val(),
+                    scores: [
+                        $("#q1").val(),
+                        $("#q2").val(),
+                        $("#q3").val(),
+                        $("#q4").val(),
+                        $("#q5").val(),
+                        $("#q6").val(),
+                        $("#q7").val(),
+                        $("#q8").val(),
+                        $("#q9").val(),
+                        $("#q10").val()
+                    ]
+                };
+                // AJAX post the data to the friends API.
+                $.post("/api/friends", userData, function (data) {
+                    // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+                    $("#match-name").text(data.name);
+                    $("#match-img").attr("src", data.photo);
+                });
+            } else {
+                alert("Please fill out all fields before submitting!");
+            }
+        });
             
     </script>
 
