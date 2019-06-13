@@ -193,7 +193,7 @@
         <footer class="footer">
             <div class="container">
                 <p>
-                    <a href="/api/friends">API Friends List</a> |
+                    <a href="/friends">API Friends List</a> |
                     <a href="https://github.com/reiko321/FriendFinder" target="_blank">GitHub Repo</a>
                 </p>
             </div>
@@ -265,7 +265,7 @@
                     ]
                 };
 
-                $.post("/api/friends", userData, function (data) {
+                $.post("/friends", userData, function (data) {
 
                     $("#match-name").text(data.name);
                     $("#match-img").attr("src", data.photo);
